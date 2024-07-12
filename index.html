@@ -339,7 +339,6 @@
     <button id="main_btn" onclick="DemoApp.sendMessage('');">Send «Hello, World!»</button>
     <button id="with_webview_btn" onclick="DemoApp.sendMessage('', true);">Send «Hello, World!» with inline webview button</button>
     <button id="data_btn" onclick="DemoApp.sendTime(true);">Send current time to bot (x10)</button>
-    <button id="data_btn2" onclick="DemoApp.sendText(true);">Send text</button>
     <button onclick="DemoApp.expand();">Expand Webview</button>
     <button onclick="DemoApp.toggleMainButton(this);">Hide Main Button</button>
     <input type="text" placeholder="Input text in regular input..." id="regular_field"/>
@@ -562,7 +561,7 @@
             }
         },
         sendText(spam) {
-            const textField = document.querySelector('regular_field');
+            const textField = document.querySelector('#text_field');
             const text      = textField.value;
             if (!text.length) {
                 return textField.focus();
