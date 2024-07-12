@@ -14,7 +14,7 @@
         setThemeClass();
 
         const DemoApp = {
-            sendText(spam = false) {
+            sendText() {
                 const textField = document.querySelector('#text_field');
                 const text = textField.textContent.trim();
                 if (!text) return textField.focus();
@@ -23,17 +23,11 @@
                     return alert('Text is too long');
                 }
 
-                const repeat = spam ? 10 : 1;
-                for (let i = 0; i < repeat; i++) {
-                    Telegram.WebApp.sendData(text);
-                }
+                Telegram.WebApp.sendData(text);
             },
 
-            sendTime(spam = false) {
-                const repeat = spam ? 10 : 1;
-                for (let i = 0; i < repeat; i++) {
-                    Telegram.WebApp.sendData(new Date().toString());
-                }
+            sendTime() {
+                Telegram.WebApp.sendData(new Date().toString());
             },
 
             sendMessage(msg_id = '', with_webview = false) {
