@@ -16,14 +16,18 @@
         const DemoApp = {
             sendTextAndClose() {
                 const textField = document.querySelector('#text_field');
+                const errorField = document.querySelector('#error_message');
                 const text = textField.textContent.trim();
-                if (!text) return textField.focus();
+                const number = parseInt(text);
 
-                if (new Blob([text]).size > 4096) {
-                    return alert('Text is too long');
+                if (!Number.isInteger(number) || number < 1 || number > 10000) {
+                    errorField.textContent = 'Please enter an integer between 1 and 10000.';
+                    errorField.style.display = 'block';
+                    return;
                 }
 
-                Telegram.WebApp.sendData(text);
+                errorField.style.display = 'none';
+                Telegram.WebApp.sendData(number.toString());
                 Telegram.WebApp.close();
             }
         };
@@ -34,7 +38,7 @@
 
             // Setup Main Button
             Telegram.WebApp.MainButton.setParams({
-                text: 'Отправить',
+                text: 'SEND TEXT AND CLOSE WEBVIEW',
                 is_visible: true
             }).onClick(DemoApp.sendTextAndClose);
         });
@@ -42,20 +46,28 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            padding: 20px;
+            padding: 40px;
         }
 
         #text_field {
             border: 1px solid #ccc;
             padding: 10px;
             margin: 10px 0;
-            min-height: 50px;
+            min-height: 40px;
+        }
+
+        #error_message {
+            color: red;
+            display: none;
+            margin-top: 10px;
         }
     </style>
 </head>
 <body style="visibility: hidden;">
 <section>
-    <div contenteditable="true" id="text_field" placeholder="Введите число..."></div>
+    <label for="text_field">Введите количество...</label>
+    <div contenteditable="true" id="text_field" placeholder="1">1</div>
+    <div id="error_message"></div>
 </section>
 </body>
 </html>
