@@ -37,17 +37,18 @@
             },
 
             sendMessage(msg_id = '', with_webview = false) {
-                if (Telegram.WebApp.initDataUnsafe.query_id) {
+                const queryId = Telegram.WebApp.initDataUnsafe?.query_id;
+                if (!queryId) {
                     return alert('WebViewQueryId not defined');
                 }
 
                 const btnStatus = document.querySelector('#btn_status');
                 btnStatus.textContent = 'Sending...';
+                btnStatus.style.display = 'block';
 
                 // Dummy response to simulate API request
                 setTimeout(() => {
                     btnStatus.textContent = 'Message sent successfully!';
-                    btnStatus.style.display = 'block';
                 }, 1000);
             }
         };
