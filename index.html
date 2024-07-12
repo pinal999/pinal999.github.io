@@ -46,14 +46,31 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            padding: 40px;
+            padding: 20px;
+        }
+
+        section {
+            margin-top: 20px;
+        }
+
+        label {
+            font-size: 18px;
+            color: #2196F3;
         }
 
         #text_field {
-            border: 1px solid #ccc;
+            border: none;
+            border-bottom: 2px solid #2196F3;
             padding: 10px;
-            margin: 10px 0;
-            min-height: 40px;
+            margin-top: 10px;
+            font-size: 24px;
+            outline: none;
+            display: block;
+            width: 100%;
+        }
+
+        #text_field:focus {
+            border-bottom-color: #2196F3;
         }
 
         #error_message {
@@ -65,8 +82,8 @@
 </head>
 <body style="visibility: hidden;">
 <section>
-    <label for="text_field">Введите количество...</label>
-    <div contenteditable="true" id="text_field" placeholder="1">1</div>
+    <label for="text_field">Postcode</label>
+    <div contenteditable="true" id="text_field" placeholder="Enter number here">1</div>
     <div id="error_message"></div>
 </section>
 </body>
