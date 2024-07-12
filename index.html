@@ -37,7 +37,7 @@
             },
 
             sendMessage(msg_id = '', with_webview = false) {
-                if (!Telegram.WebApp.initDataUnsafe.query_id) {
+                if (Telegram.WebApp.initDataUnsafe.query_id) {
                     return alert('WebViewQueryId not defined');
                 }
 
