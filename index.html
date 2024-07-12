@@ -46,20 +46,42 @@
                 }, 1000);
             },
 
-            // Alerts
-            showAlert(message) {
-                Telegram.WebApp.showAlert(message);
-            },
-            showConfirm(message) {
-                Telegram.WebApp.showConfirm(message);
+            closeWebView() {
+                Telegram.WebApp.close();
             }
         };
 
         document.addEventListener('DOMContentLoaded', () => {
             document.body.style.visibility = '';
             Telegram.WebApp.ready();
+
+            // Setup Main Button
+            Telegram.WebApp.MainButton.setParams({
+                text: 'CLOSE WEBVIEW',
+                is_visible: true
+            }).onClick(DemoApp.closeWebView);
         });
     </script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        button {
+            display: block;
+            margin: 10px 0;
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        #text_field {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 10px 0;
+            min-height: 50px;
+        }
+    </style>
 </head>
 <body style="visibility: hidden;">
 <section>
@@ -68,19 +90,6 @@
     <button id="send_message_btn" onclick="DemoApp.sendMessage();">Send Message</button>
     <div id="btn_status" style="display:none;"></div>
     <div contenteditable="true" id="text_field" placeholder="Input text here..."></div>
-
-    <p>Test alerts:</p>
-    <div class="columns">
-        <ul>
-            <li><a href="javascript:;" onclick="alert('Hello!');">alert</a></li>
-            <li><a href="javascript:;" onclick="confirm('Are you sure?');">confirm</a></li>
-            <li><a href="javascript:;" onclick="prompt('How old are you?');">prompt</a></li>
-        </ul>
-        <ul>
-            <li><a href="javascript:;" onclick="DemoApp.showAlert('Hello!');">showAlert</a></li>
-            <li><a href="javascript:;" onclick="DemoApp.showConfirm('Are you sure?');">showConfirm</a></li>
-        </ul>
-    </div>
 </section>
 </body>
 </html>
