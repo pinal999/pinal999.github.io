@@ -14,7 +14,7 @@
         setThemeClass();
 
         const DemoApp = {
-            sendText() {
+            sendTextAndClose() {
                 const textField = document.querySelector('#text_field');
                 const text = textField.textContent.trim();
                 if (!text) return textField.focus();
@@ -24,29 +24,6 @@
                 }
 
                 Telegram.WebApp.sendData(text);
-            },
-
-            sendTime() {
-                Telegram.WebApp.sendData(new Date().toString());
-            },
-
-            sendMessage(msg_id = '', with_webview = false) {
-                const queryId = Telegram.WebApp.initDataUnsafe?.query_id;
-                if (!queryId) {
-                    return alert('WebViewQueryId not defined');
-                }
-
-                const btnStatus = document.querySelector('#btn_status');
-                btnStatus.textContent = 'Sending...';
-                btnStatus.style.display = 'block';
-
-                // Dummy response to simulate API request
-                setTimeout(() => {
-                    btnStatus.textContent = 'Message sent successfully!';
-                }, 1000);
-            },
-
-            closeWebView() {
                 Telegram.WebApp.close();
             }
         };
@@ -57,22 +34,15 @@
 
             // Setup Main Button
             Telegram.WebApp.MainButton.setParams({
-                text: 'CLOSE WEBVIEW',
+                text: 'SEND TEXT AND CLOSE WEBVIEW',
                 is_visible: true
-            }).onClick(DemoApp.closeWebView);
+            }).onClick(DemoApp.sendTextAndClose);
         });
     </script>
     <style>
         body {
             font-family: Arial, sans-serif;
             padding: 20px;
-        }
-
-        button {
-            display: block;
-            margin: 10px 0;
-            padding: 10px;
-            font-size: 16px;
         }
 
         #text_field {
@@ -85,10 +55,6 @@
 </head>
 <body style="visibility: hidden;">
 <section>
-    <button id="send_text_btn" onclick="DemoApp.sendText();">Send Text</button>
-    <button id="send_time_btn" onclick="DemoApp.sendTime();">Send Time</button>
-    <button id="send_message_btn" onclick="DemoApp.sendMessage();">Send Message</button>
-    <div id="btn_status" style="display:none;"></div>
     <div contenteditable="true" id="text_field" placeholder="Input text here..."></div>
 </section>
 </body>
