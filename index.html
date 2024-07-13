@@ -1,44 +1,112 @@
-sendMessage(msg_id, with_webview) {
-    if (!DemoApp.initDataUnsafe.query_id) {
-        alert('WebViewQueryId not defined');
-        return;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="MobileOptimized" content="176"/>
+    <meta name="HandheldFriendly" content="True"/>
+    <meta name="robots" content="noindex,nofollow"/>
+    <title>Telegram Web App</title>
+    <script src="https://telegram.org/js/telegram-web-app.js?1"></script>
+    <script>
+        function setThemeClass() {
+            document.documentElement.className = Telegram.WebApp.colorScheme;
+        }
+
+        Telegram.WebApp.onEvent('themeChanged', setThemeClass);
+        setThemeClass();
+    </script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: var(--bg-color);
+        }
+        #btn_status.ok {
+            color: green;
+        }
+        #btn_status.err {
+            color: red;
+        }
+    </style>
+</head>
+
+<body style="visibility: hidden;">
+<section id="top_sect">
+    <button id="main_btn" onclick="DemoApp.sendMessage('');">Send «Hello, World!»</button>
+    <button id="with_webview_btn" onclick="DemoApp.sendMessage('', true);">Send «Hello, World!» with inline webview button</button>
+    <div id="btn_status" class="hint" style="display: none;"></div>
+</section>
+
+<script type="application/javascript">
+    const DemoApp = {
+        initData      : Telegram.WebApp.initData || '',
+        initDataUnsafe: Telegram.WebApp.initDataUnsafe || {},
+        MainButton    : Telegram.WebApp.MainButton,
+
+        init() {
+            document.body.style.visibility = '';
+            Telegram.WebApp.ready();
+            Telegram.WebApp.MainButton.setParams({
+                text      : 'CLOSE WEBVIEW',
+                is_visible: true
+            }).onClick(DemoApp.close);
+        },
+        close() {
+            Telegram.WebApp.close();
+        },
+        sendMessage(msg_id, with_webview) {
+            if (!DemoApp.initDataUnsafe.query_id) {
+                alert('WebViewQueryId not defined');
+                return;
+            }
+
+            document.querySelectorAll('button').forEach((btn) => btn.disabled = true);
+
+            const btn = document.querySelector('#btn_status');
+            btn.textContent = 'Sending...';
+
+            const message = {
+                chat_id: DemoApp.initDataUnsafe.user_id, // Replace with the actual chat_id or user_id
+                text: 'Hello, World!' // Replace with the actual message
+            };
+
+            fetch('/send-message', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(message),
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.querySelectorAll('button').forEach((btn) => btn.disabled = false);
+
+                if (data.ok) {
+                    btn.textContent = 'Message sent successfully!';
+                    btn.className = 'ok';
+                    btn.style.display = 'block';
+                } else {
+                    btn.textContent = data.description;
+                    btn.className = 'err';
+                    btn.style.display = 'block';
+                    alert(data.description);
+                }
+            })
+            .catch(error => {
+                document.querySelectorAll('button').forEach((btn) => btn.disabled = false);
+                btn.textContent = 'Unknown error';
+                btn.className = 'err';
+                btn.style.display = 'block';
+                alert('Unknown error');
+            });
+        }
     }
 
-    document.querySelectorAll('button').forEach((btn) => btn.disabled = true);
-
-    const btn = document.querySelector('#btn_status');
-    btn.textContent = 'Sending...';
-
-    const message = {
-        chat_id: DemoApp.initDataUnsafe.user_id, // Replace with the actual chat_id or user_id
-        text: 'Hello, World!' // Replace with the actual message
-    };
-
-    fetch('/send-message', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(message),
-    })
-    .then(response => response.json())
-    .then(data => {
-        document.querySelectorAll('button').forEach((btn) => btn.disabled = false);
-
-        if (data.ok) {
-            btn.textContent = 'Message sent successfully!';
-            btn.className = 'ok';
-            btn.style.display = 'block';
-        } else {
-            btn.textContent = data.description;
-            btn.className = 'err';
-            btn.style.display = 'block';
-            alert(data.description);
-        }
-    })
-    .catch(error => {
-        document.querySelectorAll('button').forEach((btn) => btn.disabled = false);
-        btn.textContent = 'Unknown error';
-        btn.className = 'err';
-        btn.style.display = 'block';
-        alert('Unknown error');
+    document.addEventListener('DOMContentLoaded', () => {
+        DemoApp.init();
     });
-}
+</script>
+
+</body>
+</html>
