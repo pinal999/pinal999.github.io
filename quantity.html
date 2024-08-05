@@ -84,10 +84,21 @@
             outline: none;
             display: block;
             width: 100%;
+            position: relative;
         }
 
         #text_field:focus {
             border-bottom-color: #2196F3;
+        }
+
+        /* Псевдо-placeholder */
+        #text_field:empty:before {
+            content: '123';
+            color: #ccc;
+            position: absolute;
+            top: 10px;
+            left: 0;
+            pointer-events: none;
         }
 
         #error_message {
@@ -100,9 +111,8 @@
 <body style="visibility: hidden;">
 <section>
     <label for="text_field">Количество</label>
-    <div contenteditable="true" id="text_field" placeholder="Enter number here">1</div>
+    <div contenteditable="true" id="text_field"></div>
     <div id="error_message"></div>
 </section>
 </body>
 </html>
-
