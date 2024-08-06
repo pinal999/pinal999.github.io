@@ -35,7 +35,12 @@
                 }
 
                 errorField.style.display = 'none';
-                Telegram.WebApp.sendData(number.toString());
+                //Telegram.WebApp.sendData(number.toString());
+                const data = {
+                    quantity: number.toString()
+                };
+
+                Telegram.WebApp.sendData(JSON.stringify(data));
                 Telegram.WebApp.close();
             }
         };
