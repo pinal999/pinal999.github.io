@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Форма регистрации пользователя</title>
+    <script src="https://telegram.org/js/telegram-web-app.js?1"></script>
+    <script>
+        function setThemeClass() {
+            document.documentElement.className = Telegram.WebApp.colorScheme;
+        }
+
+        Telegram.WebApp.onEvent('themeChanged', setThemeClass);
+        setThemeClass();
+
+        const DemoApp = {
+            sendDataAndClose() {
+                const emailField = document.querySelector('#email_field');
+                const orgField = document.querySelector('#org_field');
+                const nameField = document.querySelector('#name_field');
+                const phoneField = document.querySelector('#phone_field');
+                const errorField = document.querySelector('#error_message');
+
+                const email = emailField.textContent.trim();
+                const org = orgField.textContent.trim();
+                const name = nameField.textContent.trim();
+                const phone = phoneField.textContent.trim();
+
+                // Validate email
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(email)) {
+                    errorField.textContent = 'Пожалуйста, введите корректный адрес электронной почты';
+                    errorField.style.display = 'block';
+                    return;
+                }
+
+                // Validate other fields
+                if (!org || !name || !phone) {
+                    errorField.textContent = 'Пожалуйста, заполните все поля.';
+                    errorField.style.display = 'block';
+                    return;
+                }
+
+                errorField.style.display = 'none';
+
+                const data = {
+                    email: email,
+                    organization: org,
+                    name: name,
+                    phone: phone
+                };
+
+                Telegram.WebApp.sendData(JSON.stringify(data));
+                Telegram.WebApp.close();
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.body.style.visibility = '';
+            Telegram.WebApp.ready();
+
+            // Setup Main Button
+            Telegram.WebApp.MainButton.setParams({
+                text: 'ОТПРАВИТЬ',
+                is_visible: true
+            }).onClick(DemoApp.sendDataAndClose);
+
+            // Set focus on the first input field
+            document.querySelector('#email_field').focus();
+        });
+    </script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        section {
+            margin-top: 20px;
+        }
+
+        label {
+            font-size: 18px;
+            color: #2196F3;
+            display: block;
+            margin-top: 10px;
+        }
+
+        .input_field {
+            border: none;
+            border-bottom: 2px solid #2196F3;
+            padding: 10px;
+            margin-top: 5px;
+            font-size: 24px;
+            outline: none;
+            display: block;
+            width: 100%;
+            position: relative;
+        }
+
+        .input_field:focus {
+            border-bottom-color: #2196F3;
+        }
+
+        .input_field:empty:before {
+            color: #ccc;
+            position: absolute;
+            top: 10px;
+            left: 0;
+            pointer-events: none;
+        }
+
+        #email_field:empty:before {
+            content: 'your.email@example.com';
+        }
+
+        #org_field:empty:before {
+            content: 'ООО \'Столовые приборы\'';
+        }
+
+        #name_field:empty:before {
+            content: 'Андреев Алексей Сергеевич';
+        }
+
+        #phone_field:empty:before {
+            content: '+79161234567';
+        }
+
+        #error_message {
+            color: red;
+            display: none;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body style="visibility: hidden;">
+<section>
+    <label for="email_field">Электронная почта</label>
+    <div contenteditable="true" id="email_field" class="input_field"></div>
+
+    <label for="name_field">Имя</label>
+    <div contenteditable="true" id="name_field" class="input_field"></div>
+
+    <label for="phone_field">Телефон *</label>
+    <div contenteditable="true" id="phone_field" class="input_field"></div>
+
+	    <label for="org_field">Организация *</label>
+    <div contenteditable="true" id="org_field" class="input_field"></div>
+
+    <div id="error_message"></div>
+</section>
+</body>
+</html>
