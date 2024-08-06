@@ -43,7 +43,7 @@
                 }
 
                 // Validate phone number
-                const phoneRegex = /^\+?\d{1,3}[-\s]?\d{3}[-\s]?\d{3}[-\s]?\d{2}[-\s]?\d{2}$/;
+                const phoneRegex = /^\+?\d{1,4}[-\s]?\d{3}[-\s]?\d{3}[-\s]?\d{2}[-\s]?\d{2}$/;
                 if (!phoneRegex.test(phone)) {
                     errorField.textContent = 'Пожалуйста, введите корректный номер телефона.';
                     errorField.style.display = 'block';
