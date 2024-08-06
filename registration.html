@@ -35,7 +35,7 @@
                 }
 
                 // Validate name
-                const nameRegex = /^[А-ЯЁа-яёA-Za-z\s]+$/;
+                const nameRegex = /^[А-ЯЁа-яёA-Za-z\s]{2,}$/;
                 if (!nameRegex.test(name)) {
                     errorField.textContent = 'Пожалуйста, введите корректное имя (только буквы и пробелы).';
                     errorField.style.display = 'block';
