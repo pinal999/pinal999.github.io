@@ -15,30 +15,22 @@
 
         const DemoApp = {
             sendDataAndClose() {
-                const emailField = document.querySelector('#email_field');
-                const orgField = document.querySelector('#org_field');
                 const nameField = document.querySelector('#name_field');
                 const phoneField = document.querySelector('#phone_field');
+                const emailField = document.querySelector('#email_field');
+                const orgField = document.querySelector('#org_field');
                 const cityField = document.querySelector('#city_field');
                 const activityField = document.querySelector('#activity_field');
                 const commentField = document.querySelector('#comment_field');
                 const errorField = document.querySelector('#error_message');
 
-                const email = emailField.textContent.trim();
-                const org = orgField.textContent.trim();
                 const name = nameField.textContent.trim();
                 const phone = phoneField.textContent.trim();
+                const email = emailField.textContent.trim();
+                const org = orgField.textContent.trim();
                 const city = cityField.textContent.trim();
                 const activity = activityField.value.trim();
                 const comment = commentField.textContent.trim();
-
-                // Validate email
-                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                if (!emailRegex.test(email)) {
-                    errorField.textContent = 'Пожалуйста, введите корректный адрес электронной почты.';
-                    errorField.style.display = 'block';
-                    return;
-                }
 
                 // Validate name
                 const nameRegex = /^[А-ЯЁа-яёA-Za-z\s]{2,}$/;
@@ -56,20 +48,29 @@
                     return;
                 }
 
-                // Validate other required fields
+                // Validate email
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(email)) {
+                    errorField.textContent = 'Пожалуйста, введите корректный адрес электронной почты.';
+                    errorField.style.display = 'block';
+                    return;
+                }
+
+                // Validate organization
                 if (!org) {
                     errorField.textContent = 'Пожалуйста, заполните поле организации.';
                     errorField.style.display = 'block';
                     return;
                 }
 
+                // No validation required for city, activity, and comment
                 errorField.style.display = 'none';
 
                 const data = {
-                    email: email,
-                    organization: org,
                     name: name,
                     phone: phone,
+                    email: email,
+                    organization: org,
                     city: city,
                     activity: activity,
                     comment: comment
@@ -91,7 +92,7 @@
             }).onClick(DemoApp.sendDataAndClose);
 
             // Set focus on the first input field
-            document.querySelector('#email_field').focus();
+            document.querySelector('#name_field').focus();
         });
     </script>
     <style>
@@ -135,20 +136,20 @@
             pointer-events: none;
         }
 
-        #email_field:empty:before {
-            content: 'your.email@example.ru';
-        }
-
-        #org_field:empty:before {
-            content: 'ООО \'Столовые приборы\'';
-        }
-
         #name_field:empty:before {
             content: 'Андреев Алексей Сергеевич';
         }
 
         #phone_field:empty:before {
             content: '+79876543210';
+        }
+
+        #email_field:empty:before {
+            content: 'your.email@example.ru';
+        }
+
+        #org_field:empty:before {
+            content: 'ООО \'Столовые приборы\'';
         }
 
         #city_field:empty:before {
