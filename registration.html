@@ -20,6 +20,7 @@
                 const emailField = document.querySelector('#email_field');
                 const orgField = document.querySelector('#org_field');
                 const cityField = document.querySelector('#city_field');
+                const addressField = document.querySelector('#address_field');
                 const activityField = document.querySelector('#activity_field');
                 const commentField = document.querySelector('#comment_field');
                 const errorField = document.querySelector('#error_message');
@@ -29,6 +30,7 @@
                 const email = emailField.textContent.trim();
                 const org = orgField.textContent.trim();
                 const city = cityField.textContent.trim();
+                const address = addressField.textContent.trim();
                 const activity = activityField.value.trim();
                 const comment = commentField.textContent.trim();
 
@@ -63,7 +65,7 @@
                     return;
                 }
 
-                // No validation required for city, activity, and comment
+                // No validation required for city, address, activity, and comment
                 errorField.style.display = 'none';
 
                 const data = {
@@ -72,6 +74,7 @@
                     email: email,
                     organization: org,
                     city: city,
+                    address: address,
                     activity: activity,
                     comment: comment
                 };
@@ -156,6 +159,10 @@
             content: 'Москва';
         }
 
+        #address_field:empty:before {
+            content: 'Укажите адрес';
+        }
+
         #comment_field:empty:before {
             content: 'Ваш комментарий';
         }
@@ -208,6 +215,9 @@
 
     <label for="city_field">Город</label>
     <div contenteditable="true" id="city_field" class="input_field"></div>
+
+    <label for="address_field">Адрес</label>
+    <div contenteditable="true" id="address_field" class="input_field"></div>
 
     <label for="comment_field">Комментарий</label>
     <div contenteditable="true" id="comment_field" class="input_field"></div>
