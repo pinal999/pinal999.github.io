@@ -65,6 +65,20 @@
                     return;
                 }
 
+                // Validate city
+                if (!city) {
+                    errorField.textContent = 'Пожалуйста, заполните поле вашего местонахождения.';
+                    errorField.style.display = 'block';
+                    return;
+                }
+
+                // Validate address
+                if (!address) {
+                    errorField.textContent = 'Пожалуйста, заполните адрес доставки.';
+                    errorField.style.display = 'block';
+                    return;
+                }
+
                 // No validation required for city, address, activity, and comment
                 errorField.style.display = 'none';
 
